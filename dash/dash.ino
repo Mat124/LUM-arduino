@@ -30,24 +30,34 @@ void loop() {
 
       //INVERTER SECTION
       case 0x0A0://Temperatures #1, gain=10
+        //parse data
         int16_t mod_A_temp = (int16_t)(frame.data[0] << 8) | frame.data[1]; //convert bytes to signed int16, must do it this way or may become unsigned
         int16_t mod_B_temp = (int16_t)(frame.data[2] << 8) | frame.data[3]; 
         int16_t mod_C_temp = (int16_t)(frame.data[4] << 8) | frame.data[5]; 
         int16_t gate_driver_board_temp = (int16_t)(frame.data[6] << 8) | frame.data[7]; 
+        //do stuff using the data here
+        
         break;
       case 0x0A1://Temperatures #2, gain=10
+        //parse data
         int16_t control_board_temp = (int16_t)(frame.data[0] << 8) | frame.data[1]; //convert bytes to signed int16, must do it this way or may become unsigned
         int16_t RTD1_temp = (int16_t)(frame.data[2] << 8) | frame.data[3]; 
         int16_t RTD2_temp = (int16_t)(frame.data[4] << 8) | frame.data[5]; 
-        int16_t RTD3_temp = (int16_t)(frame.data[6] << 8) | frame.data[7]; 
+        int16_t RTD3_temp = (int16_t)(frame.data[6] << 8) | frame.data[7];
+        //do stuff using the data here
+         
         break;
       case 0x0A2://Temperatures #3, gain=10
+        //parse data
         int16_t coolant_temp = (int16_t)(frame.data[0] << 8) | frame.data[1]; //convert bytes to signed int16, must do it this way or may become unsigned
         int16_t hotspot_temp = (int16_t)(frame.data[2] << 8) | frame.data[3]; 
         int16_t motor_temp = (int16_t)(frame.data[4] << 8) | frame.data[5]; 
         int16_t torque_shudder = (int16_t)(frame.data[6] << 8) | frame.data[7]; 
+        //do stuff using the data here
+        
         break;
       case 0x0A3://Analog Inputs Voltage, gain=100
+        //parse data
         //probably want to double check these, supposedly these are 10-bit signed integers but i think it should be unsigned
         //if unsigned, change definition to uint16_t and remove if, leaving the line in the else
         int16_t analog_1;
@@ -92,6 +102,9 @@ void loop() {
         else {
           analog_6 = (((uint16_t)(frame.data[0])) << 2) | (uint16_t)(frame.data[1] >> 6);
         }
+        //do stuff using the data here
+        
+        break;
       case 0x0A4://Digital Inputs Voltage
       case 0x0A5://Motor Position Information
       case 0x0A6://Current Information
