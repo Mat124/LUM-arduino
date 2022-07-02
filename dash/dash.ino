@@ -47,7 +47,51 @@ void loop() {
         int16_t motor_temp = (int16_t)(frame.data[4] << 8) | frame.data[5]; 
         int16_t torque_shudder = (int16_t)(frame.data[6] << 8) | frame.data[7]; 
         break;
-      case 0x0A3://Analog Inputs Voltage
+      case 0x0A3://Analog Inputs Voltage, gain=100
+        //probably want to double check these, supposedly these are 10-bit signed integers but i think it should be unsigned
+        //if unsigned, change definition to uint16_t and remove if, leaving the line in the else
+        int16_t analog_1;
+        if (frame.data[0] >= 128) { //first bit is 1
+          analog_1 = 0b1111110000000000 | (((uint16_t)(frame.data[0])) << 2) | (uint16_t)(frame.data[1] >> 6);
+        }
+        else {
+          analog_1 = (((uint16_t)(frame.data[0])) << 2) | (uint16_t)(frame.data[1] >> 6);
+        }
+        int16_t analog_2;
+        if ((frame.data[1] << 2) >= 128) { //first bit is 1
+          analog_2 = 0b1111110000000000 | (((uint16_t)(frame.data[1])) << 4) | (uint16_t)(frame.data[2] >> 4);
+        }
+        else {
+          analog_2 = (((uint16_t)(frame.data[0])) << 2) | (uint16_t)(frame.data[1] >> 6);
+        }
+        int16_t analog_3;
+        if ((frame.data[2] << 4) >= 128) { //first bit is 1
+          analog_3 = 0b1111110000000000 | (((uint16_t)(frame.data[2])) << 6) | (uint16_t)(frame.data[3] >> 2);
+        }
+        else {
+          analog_3 = (((uint16_t)(frame.data[0])) << 2) | (uint16_t)(frame.data[1] >> 6);
+        }
+        int16_t analog_4;
+        if (frame.data[0] >= 128) { //first bit is 1
+          analog_4 = 0b1111110000000000 | (((uint16_t)(frame.data[4])) << 2) | (uint16_t)(frame.data[5] >> 6);
+        }
+        else {
+          analog_4 = (((uint16_t)(frame.data[0])) << 2) | (uint16_t)(frame.data[1] >> 6);
+        }
+        int16_t analog_5;
+        if ((frame.data[1] << 2) >= 128) { //first bit is 1
+          analog_5 = 0b1111110000000000 | (((uint16_t)(frame.data[5])) << 4) | (uint16_t)(frame.data[6] >> 4);
+        }
+        else {
+          analog_5 = (((uint16_t)(frame.data[0])) << 2) | (uint16_t)(frame.data[1] >> 6);
+        }
+        int16_t analog_6;
+        if ((frame.data[2] << 4) >= 128) { //first bit is 1
+          analog_6 = 0b1111110000000000 | (((uint16_t)(frame.data[6])) << 6) | (uint16_t)(frame.data[7] >> 2);
+        }
+        else {
+          analog_6 = (((uint16_t)(frame.data[0])) << 2) | (uint16_t)(frame.data[1] >> 6);
+        }
       case 0x0A4://Digital Inputs Voltage
       case 0x0A5://Motor Position Information
       case 0x0A6://Current Information
